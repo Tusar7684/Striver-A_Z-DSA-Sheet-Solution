@@ -1,53 +1,33 @@
-#include <iostream>
-#include <vector>
-using namespace std;
-
-int partition(vector<int> &arr, int low, int high) {
-    int pivot = arr[low];
-    int i = low - 1;
-    int j = high + 1;
-    while (true) {
-        do {
+#include <bits/stdc++.h> 
+int partition(vector<int>&arr,int low ,int high){
+    int pivot=arr[low];
+    int i=low;
+    int j=high;
+    while(i<j){
+        while(arr[i]<=pivot&&i<=high-1){
             i++;
-        } while (arr[i] < pivot);
-
-        do {
+        }
+        while(arr[j]>pivot&&j>=low+1){
             j--;
-        } while (arr[j] > pivot);
-
-        if (i >= j)
-            return j;
-
-        swap(arr[i], arr[j]);
+        }
+        if (i < j) {
+            swap(arr[i], arr[j]);
+        }
+    }
+    swap(arr[low],arr[j]);
+    return j;
+}
+void qs(vector<int>&arr,int low ,int high){
+     if(low<high){
+        int PIndex=partition(arr,low,high);
+        qs(arr,low,PIndex-1);
+        qs(arr,PIndex+1,high);
     }
 }
-
-void quicksort(vector<int> &arr, int low, int high) {
-    if (low < high) {
-        int pIndex = partition(arr, low, high);
-        quicksort(arr, low, pIndex);
-        quicksort(arr, pIndex + 1, high);
-    }
-}
-
-int main() {
-    int n;
-    cout << "Enter the number of elements: ";
-    cin >> n;
-    
-    vector<int> arr(n);
-    cout << "Enter the elements:\n";
-    for (int i = 0; i < n; i++) {
-        cin >> arr[i];
-    }
-    
-    quicksort(arr, 0, n - 1);
-    
-    cout << "Sorted array: ";
-    for (int i = 0; i < n; i++) {
-        cout << arr[i] << " ";
-    }
-    cout << endl;
-    
-    return 0;
+vector<int> quickSort(vector<int> arr)
+{
+    // Write your code here.
+    qs(arr,0,arr.size()-1);
+    return arr;
+   
 }
